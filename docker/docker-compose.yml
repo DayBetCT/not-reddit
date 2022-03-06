@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  nr-db:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_DATABASE: notreddit
+      MYSQL_USER: notreddit
+      MYSQL_PASSWORD: notreddit1234
+      MYSQL_ROOT_PASSWORD: notreddit1234
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    volumes:
+      - ../LocalData/mysql:/var/lib/mysql
