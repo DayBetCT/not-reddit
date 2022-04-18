@@ -1,8 +1,12 @@
 version: '3.9'
 
+networks:
+  nr-network:
+    driver: bridge
 services:
   database:
-    container_name: nr-db
+    container_name: nr-database
+    platform: linux/x86_64
     image: mysql:8.0.28
     ports:
       - 3306:3306
@@ -14,21 +18,27 @@ services:
       MYSQL_USER: notreddit
       MYSQL_PASSWORD: notreddit1234
       MYSQL_ROOT_PASSWORD: notreddit1234
+    networks:
+      - nr-network
   
   nginx:
     container_name: nr-nginx
     image: nginx:1.21.6
     ports:
-      - 80:80
+      - 8001:80
     volumes:
       - ./docker/nginx/templates:/etc/nginx/templates
       - ./LocalData/nginx:/var/log/nginx
       - ./server:/var/www/server
+    networks:
+      - nr-network
 
-  php:
+  php-fpm:
     container_name: nr-php-fpm
-    image: php:8.1.3-fpm-bullseye
+    build: docker/php
     ports:
       - 9000:9000
     volumes:
       - ./server:/var/www/server
+    networks:
+      - nr-network
