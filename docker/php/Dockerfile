@@ -1,8 +1,7 @@
 FROM php:8.1.3-fpm-bullseye
 
 RUN apt-get update
-RUN apt-get install -y locales
-RUN apt-get install -y curl
+RUN apt-get install -y locales curl
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
